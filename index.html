@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vikas — Full Stack Developer</title>
+<meta name="description" content="Vikas — Full Stack Developer. React.js/Next.js on the front end, Java (Spring Boot) & Node.js on the back end. Building scalable, secure web applications and AI/LLM tools.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ---- light, professional paper theme (page) ---- */
+  --paper:#F7F4EC;
+  --paper-2:#EFEADC;
+  --ink:#231F18;
+  --ink-muted:#726A5B;
+  --hairline:#E2DAC5;
+
+  /* ---- dark terminal theme (hero centerpiece) ---- */
+  --term-bg:#18140D;
+  --term-panel:#1F1911;
+  --term-line:#3A3020;
+  --term-text:#F1E7D6;
+  --term-muted:#8C8171;
+
+  /* ---- accent: amber phosphor, replaces blue ---- */
+  --amber:#C98A2C;
+  --amber-bright:#F4B65B;
+  --amber-deep:#8A5A17;
+  --amber-wash:rgba(201,138,44,.10);
+  --sage:#5F7A57;
+
+  --serif-display:'Sora',system-ui,sans-serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--amber-wash);color:var(--ink)}
+a{color:var(--amber-deep);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible,input:focus-visible{
+  outline:2px solid var(--amber);outline-offset:3px;border-radius:2px;
+}
+.wrap{max-width:880px;margin:0 auto;padding:0 24px}
+
+nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(247,244,236,.90);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--hairline);
+}
+.nav-inner{
+  max-width:880px;margin:0 auto;padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--mono);font-size:13px;
+}
+.nav-logo{color:var(--ink);font-weight:600;letter-spacing:.02em}
+.nav-logo .tilde{color:var(--amber-deep)}
+.nav-links{display:flex;gap:22px;list-style:none}
+.nav-links a{color:var(--ink-muted);transition:color .15s}
+.nav-links a:hover{color:var(--amber-deep);text-decoration:none}
+.nav-links a::before{content:"./";color:var(--hairline)}
+.nav-links a:hover::before{color:var(--amber)}
+
+header{padding:56px 0 26px}
+.hero-eyebrow{
+  font-family:var(--mono);font-size:12.5px;color:var(--amber-deep);
+  letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.hero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--sage);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.term{
+  background:var(--term-bg);
+  border:1px solid var(--term-line);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 30px 70px -30px rgba(24,20,13,.55),0 0 0 1px rgba(244,182,91,.05),0 0 90px -40px rgba(244,182,91,.18);
+}
+.term-bar{
+  display:flex;align-items:center;gap:8px;
+  padding:11px 16px;background:#120E09;border-bottom:1px solid var(--term-line);
+}
+.dot2{width:11px;height:11px;border-radius:50%;background:#332A1C}
+.dot2.r{background:#4A3A22}.dot2.y{background:#5C4526}.dot2.g{background:var(--amber)}
+.term-title{
+  margin-left:auto;margin-right:auto;transform:translateX(-22px);
+  font-family:var(--mono);font-size:12px;color:var(--term-muted);
+}
+.term-body{padding:26px 26px 22px;font-family:var(--mono);font-size:14px;line-height:1.85;min-height:290px}
+.t-line{white-space:pre-wrap;word-break:break-word}
+.prompt{color:var(--amber-bright);font-weight:600}
+.prompt .path{color:#D9C79A}
+.cmd{color:var(--term-text)}
+.out{color:var(--term-text)}
+.out .hl{color:var(--amber-bright);font-weight:600}
+.comment{color:var(--term-muted)}
+.big-name{
+  font-family:var(--serif-display);
+  font-size:clamp(28px,5vw,42px);font-weight:700;color:var(--term-text);
+  letter-spacing:-.01em;line-height:1.2;margin:8px 0 4px;
+}
+.big-name .accent{color:var(--amber-bright)}
+.role-line{color:#D9C79A;font-size:15px;margin-bottom:12px;font-family:var(--mono)}
+.role-line .sep{color:var(--term-muted);padding:0 6px}
+.cursor{
+  display:inline-block;width:9px;height:18px;background:var(--amber-bright);
+  vertical-align:-3px;animation:blink 1.05s steps(1) infinite;
+}
+@keyframes blink{50%{opacity:0}}
+.term-input-row{display:flex;align-items:baseline;gap:8px;margin-top:6px}
+.term-input{
+  flex:1;background:transparent;border:none;color:var(--term-text);
+  font-family:var(--mono);font-size:14px;caret-color:var(--amber-bright);
+}
+.term-input:focus{outline:none}
+.term-hint{font-family:var(--mono);font-size:12px;color:var(--ink-muted);margin-top:14px;padding:0 4px}
+.term-hint kbd{
+  font-family:var(--mono);background:var(--paper-2);border:1px solid var(--hairline);
+  border-radius:4px;padding:1px 6px;color:var(--amber-deep);font-size:11px;
+}
+
+section{padding:46px 0;border-top:1px solid var(--hairline)}
+.sec-cmd{
+  font-family:var(--mono);font-size:13px;color:var(--ink-muted);margin-bottom:6px;
+}
+.sec-cmd .p{color:var(--amber-deep)}
+h2{
+  font-family:var(--serif-display);font-size:23px;font-weight:700;color:var(--ink);
+  letter-spacing:-.01em;margin-bottom:26px;
+}
+h2::after{content:" _";color:var(--amber)}
+
+.about-grid{display:grid;grid-template-columns:1fr;gap:18px;max-width:720px}
+.about-grid p{color:var(--ink)}
+.about-grid p strong{color:var(--ink);font-weight:700}
+.fact-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.chip{
+  font-family:var(--mono);font-size:12px;color:var(--amber-deep);
+  border:1px solid var(--hairline);border-radius:6px;padding:5px 11px;background:var(--paper-2);
+}
+.stack-split{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.stack-split .half{
+  flex:1;min-width:220px;border:1px solid var(--hairline);border-radius:8px;
+  padding:14px 16px;background:var(--paper-2);
+}
+.stack-split .half .lbl{font-family:var(--mono);font-size:11.5px;color:var(--amber-deep);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.stack-split .half .val{font-size:14px;color:var(--ink)}
+
+.skill-table{display:grid;gap:1px;background:var(--hairline);border:1px solid var(--hairline);border-radius:8px;overflow:hidden}
+.skill-row{
+  display:grid;grid-template-columns:150px 1fr;background:var(--paper-2);
+  transition:background .15s;
+}
+.skill-row:hover{background:#E7E0CC}
+.skill-key{
+  font-family:var(--mono);font-size:12.5px;color:var(--amber-deep);font-weight:600;
+  padding:14px 18px;border-right:1px solid var(--hairline);display:flex;align-items:center;
+}
+.skill-key::before{content:"~/";color:var(--ink-muted);margin-right:2px}
+.skill-vals{padding:12px 18px;display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.skill-vals span{
+  font-family:var(--mono);font-size:12px;color:var(--ink);
+  background:#fff;border:1px solid var(--hairline);
+  border-radius:5px;padding:3px 9px;
+}
+
+.xp{position:relative;padding-left:30px}
+.xp::before{
+  content:"";position:absolute;left:7px;top:6px;bottom:6px;width:1px;
+  background:linear-gradient(var(--amber),var(--hairline));
+}
+.job{position:relative;padding-bottom:36px}
+.job:last-child{padding-bottom:0}
+.job::before{
+  content:"";position:absolute;left:-27px;top:7px;width:9px;height:9px;border-radius:50%;
+  background:var(--paper);border:2px solid var(--amber);
+}
+.job-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:3px}
+.job-title{font-weight:700;color:var(--ink);font-size:17px;font-family:var(--serif-display)}
+.job-date{font-family:var(--mono);font-size:12px;color:var(--ink-muted);margin-left:auto}
+.job-co{font-family:var(--mono);font-size:13px;color:var(--amber-deep);margin-bottom:2px}
+.job-loc{font-family:var(--mono);font-size:11.5px;color:var(--ink-muted);margin-bottom:10px}
+.job ul{list-style:none}
+.job li{position:relative;padding-left:20px;margin-bottom:7px;font-size:14.5px;color:var(--ink)}
+.job li::before{content:">";position:absolute;left:0;color:var(--amber-deep);font-family:var(--mono);font-weight:600}
+
+.proj-grid{display:grid;grid-template-columns:1fr;gap:18px}
+.proj{
+  border:1px solid var(--hairline);border-radius:10px;background:var(--paper-2);
+  overflow:hidden;transition:border-color .2s, transform .2s, box-shadow .2s;
+}
+.proj:hover{border-color:var(--amber);transform:translateY(-2px);box-shadow:0 14px 30px -18px rgba(138,90,23,.35)}
+.proj-head{
+  padding:18px 22px;border-bottom:1px solid var(--hairline);background:#F1ECDF;
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;
+}
+.proj-name{font-family:var(--mono);font-weight:700;color:var(--ink);font-size:15px}
+.proj-name::before{content:"# ";color:var(--amber-deep)}
+.proj-tag{font-family:var(--mono);font-size:11.5px;color:var(--ink-muted)}
+.proj-body{padding:20px 22px}
+.proj-body ul{list-style:none;margin-bottom:16px}
+.proj-body li{position:relative;padding-left:20px;margin-bottom:7px;font-size:14px}
+.proj-body li::before{content:">";position:absolute;left:0;color:var(--amber-deep);font-family:var(--mono);font-weight:600}
+.stack{display:flex;flex-wrap:wrap;gap:7px;padding-top:14px;border-top:1px dashed var(--hairline)}
+.stack-label{font-family:var(--mono);font-size:11.5px;color:var(--ink-muted);width:100%;margin-bottom:2px}
+.stack span{
+  font-family:var(--mono);font-size:11.5px;color:var(--amber-deep);
+  border:1px solid rgba(138,90,23,.3);border-radius:5px;padding:3px 9px;
+  background:#fff;
+}
+
+.edu{display:grid;gap:14px;max-width:640px}
+.edu-item{display:flex;gap:14px;align-items:baseline}
+.edu-item .deg{color:var(--ink);font-weight:700;font-family:var(--serif-display);font-size:15px}
+.edu-item .inst{font-family:var(--mono);font-size:13px;color:var(--ink-muted)}
+.edu-mark{font-family:var(--mono);color:var(--amber-deep);font-weight:600}
+
+.contact-box{
+  border:1px solid var(--hairline);border-radius:10px;background:var(--paper-2);
+  padding:30px;font-family:var(--mono);font-size:14px;
+}
+.contact-box .row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.contact-box .k{color:var(--ink-muted);min-width:110px}
+.contact-box .k::after{content:":"}
+.contact-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.contact-btn{
+  display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:7px;
+  font-family:var(--mono);font-size:13.5px;font-weight:600;
+  transition:background .15s, transform .15s, border-color .15s;
+  border:1px solid transparent;cursor:pointer;
+}
+.contact-btn.primary{background:var(--amber-deep);color:#fff}
+.contact-btn.primary:hover{background:#734A12;text-decoration:none;transform:translateY(-1px)}
+.contact-btn.ghost{background:#fff;color:var(--ink);border-color:var(--hairline)}
+.contact-btn.ghost:hover{border-color:var(--amber);text-decoration:none;transform:translateY(-1px)}
+.contact-btn:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.copy-feedback{
+  font-family:var(--mono);font-size:12px;color:var(--sage);margin-left:2px;
+  opacity:0;transition:opacity .2s;
+}
+.copy-feedback.show{opacity:1}
+
+footer{
+  border-top:1px solid var(--hairline);padding:26px 0 34px;
+  font-family:var(--mono);font-size:12px;color:var(--ink-muted);
+}
+.foot-inner{max-width:880px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.foot-inner .ok{color:var(--sage)}
+
+@media(max-width:640px){
+  .skill-row{grid-template-columns:1fr}
+  .skill-key{border-right:none;border-bottom:1px solid var(--hairline);padding-bottom:10px}
+  .job-date{margin-left:0;width:100%}
+  .nav-links{gap:14px}
+  .nav-links li:nth-child(n+4){display:none}
+  .term-body{padding:20px 16px}
+  .stack-split{flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<nav aria-label="Main">
+  <div class="nav-inner">
+    <span class="nav-logo"><span class="tilde">~</span>/vikas</span>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="wrap">
+  <p class="hero-eyebrow"><span class="dot"></span> currently building @ ABP Network</p>
+  <div class="term" id="terminal">
+    <div class="term-bar">
+      <span class="dot2 r"></span><span class="dot2 y"></span><span class="dot2 g"></span>
+      <span class="term-title">vikas@portfolio — zsh</span>
+    </div>
+    <div class="term-body" id="termBody" aria-live="polite">
+      <noscript>
+        <div class="t-line"><span class="prompt">vikas@portfolio<span class="path"> ~</span> $</span> <span class="cmd">whoami</span></div>
+        <div class="big-name">Vikas <span class="accent">_</span></div>
+        <div class="role-line">Full Stack Developer <span class="sep">·</span> React.js/Next.js <span class="sep">·</span> Java/Spring Boot <span class="sep">·</span> Node.js</div>
+        <div class="t-line out">2+ years designing front ends and building the backend systems behind them.</div>
+      </noscript>
+    </div>
+  </div>
+  <p class="term-hint">tip — the terminal is live. type <kbd>help</kbd> and press <kbd>Enter</kbd>.</p>
+</header>
+
+<main class="wrap">
+
+<section id="about">
+  <p class="sec-cmd"><span class="p">$</span> cat about.md</p>
+  <h2>About</h2>
+  <div class="about-grid">
+    <p>Full Stack Developer with <strong>2+ years of experience</strong> shipping complete features end to end — <strong>React.js / Next.js</strong> interfaces on the front, <strong>Java (Spring Boot) and Node.js</strong> services on the back. I care about clean architecture, API security, and interfaces that stay fast and usable as the system grows.</p>
+    <p>Currently building enterprise web applications at <strong>ABP Network</strong> — dynamic React/Redux UIs backed by secure REST APIs with JWT authentication and RBAC. I've recently expanded into AI/LLM development too, building RAG pipelines with LangChain and the OpenAI API.</p>
+    <div class="stack-split">
+      <div class="half">
+        <div class="lbl">front end</div>
+        <div class="val">React.js, Next.js, Redux, Tailwind CSS, Angular</div>
+      </div>
+      <div class="half">
+        <div class="lbl">back end</div>
+        <div class="val">Java/Spring Boot, Node.js/Express, MySQL, AWS</div>
+      </div>
+    </div>
+    <div class="fact-row">
+      <span class="chip">📍 Noida, Uttar Pradesh</span>
+      <span class="chip">⚡ 2+ yrs experience</span>
+      <span class="chip">🔐 API security focused</span>
+      <span class="chip">🤖 LangChain / OpenAI</span>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <p class="sec-cmd"><span class="p">$</span> ls -la skills/</p>
+  <h2>Skills</h2>
+  <div class="skill-table">
+    <div class="skill-row">
+      <div class="skill-key">frontend</div>
+      <div class="skill-vals"><span>React.js</span><span>Redux</span><span>Next.js</span><span>Tailwind CSS</span><span>Angular</span><span>HTML5</span><span>CSS3</span></div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-key">backend</div>
+      <div class="skill-vals"><span>Node.js</span><span>Express.js</span><span>Spring Boot</span><span>Hibernate</span><span>MyBatis</span><span>REST APIs</span><span>JWT</span><span>RBAC</span></div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-key">languages</div>
+      <div class="skill-vals"><span>Java</span><span>Python</span><span>JavaScript (ES6+)</span><span>TypeScript</span></div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-key">ai_ml</div>
+      <div class="skill-vals"><span>LangChain</span><span>OpenAI API</span><span>Vector Databases</span><span>RAG</span><span>Prompt Engineering</span></div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-key">databases</div>
+      <div class="skill-vals"><span>PostgreSQL</span><span>MySQL</span><span>MongoDB</span><span>Prisma</span><span>Liquibase</span><span>Flyway</span></div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-key">cloud_tools</div>
+      <div class="skill-vals"><span>AWS S3</span><span>AWS SES</span><span>Docker</span><span>Git</span><span>Postman</span><span>Swagger</span><span>Maven</span><span>Gradle</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <p class="sec-cmd"><span class="p">$</span> git log --career --oneline</p>
+  <h2>Experience</h2>
+  <div class="xp">
+    <article class="job">
+      <div class="job-head">
+        <span class="job-title">Full Stack Developer</span>
+        <span class="job-date">Dec 2025 — Present</span>
+      </div>
+      <p class="job-co">ABP Network</p>
+      <p class="job-loc">Noida Sec-125, U.P.</p>
+      <ul>
+        <li>Building dynamic, responsive UI components with React.js and Redux for efficient state management.</li>
+        <li>Developing scalable enterprise web applications using React.js, Node.js, and Express.js.</li>
+        <li>Designing secure RESTful APIs with JWT-based authentication and RBAC.</li>
+        <li>Optimizing MySQL queries and schema design; automating workflows including email notifications with robust validation and error handling.</li>
+      </ul>
+    </article>
+    <article class="job">
+      <div class="job-head">
+        <span class="job-title">IoT Web Application Developer</span>
+        <span class="job-date">Aug 2025 — Nov 2025</span>
+      </div>
+      <p class="job-co">Oxymora Technology</p>
+      <p class="job-loc">Jaipur, Rajasthan, India — Hybrid, Part-time</p>
+      <ul>
+        <li>Developed backend APIs for an IoT dashboard monitoring real-time device data.</li>
+        <li>Designed and implemented MySQL database schemas to support backend operations and IoT system integration.</li>
+        <li>Collaborated with the development team to deliver features on time and with accuracy.</li>
+      </ul>
+    </article>
+    <article class="job">
+      <div class="job-head">
+        <span class="job-title">Associate Software Engineer</span>
+        <span class="job-date">Oct 2024 — Jul 2025</span>
+      </div>
+      <p class="job-co">VinnovateLabz</p>
+      <p class="job-loc">Bengaluru, Karnataka, India — On-site, Full-time</p>
+      <ul>
+        <li>Built scalable RESTful APIs in Java + Spring Boot for a logistics platform (Parcel Network).</li>
+        <li>Implemented JWT authentication with RSA-based token validation and role-based access control (RBAC).</li>
+        <li>Integrated AWS S3 and SES for document storage and automated email notifications; managed schema versioning with Liquibase and Flyway.</li>
+        <li>Integrated LangChain with Python to build a proof-of-concept conversational chatbot accepting user prompts through an API.</li>
+      </ul>
+    </article>
+    <article class="job">
+      <div class="job-head">
+        <span class="job-title">Java Full Stack Developer Trainee</span>
+        <span class="job-date">Aug 2023 — Oct 2024</span>
+      </div>
+      <p class="job-co">JSpiders — Training &amp; Development Center</p>
+      <p class="job-loc">Marathahalli, Bengaluru, Karnataka, India — Apprenticeship</p>
+      <ul>
+        <li>Completed intensive full stack developer training covering Core Java, Advanced Java, Web Technologies, J2EE, and modern Java frameworks.</li>
+        <li>Gained hands-on experience with SQL and relational database design.</li>
+        <li>Built a School Management System project — designed the database schema and implemented backend logic and web-based UI to manage student, teacher, and class records.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section id="projects">
+  <p class="sec-cmd"><span class="p">$</span> ls projects/</p>
+  <h2>Projects</h2>
+  <div class="proj-grid">
+
+    <article class="proj">
+      <div class="proj-head">
+        <span class="proj-name">Intern Management System (IMS)</span>
+        <span class="proj-tag">enterprise intern onboarding platform · ABP Network</span>
+      </div>
+      <div class="proj-body">
+        <ul>
+          <li>Full-stack platform automating the complete intern lifecycle — onboarding to offboarding — for enterprise-scale operations.</li>
+          <li>Multi-level workflow: HR initiates onboarding, assigns Department, Division, Manager, and HOD, with automated approval routing across Manager → HOD → HR → Senior HR → IT stages.</li>
+          <li>Secure RBAC supporting HR, Manager, HOD, IT, Finance, and Admin roles with department-level permissions.</li>
+          <li>Dynamic onboarding forms for personal, educational, bank, and compliance records, plus automated request modules for Email ID, Wi-Fi, ID Card, and IT asset provisioning.</li>
+          <li>Real-time status tracking, email notifications, audit logs, and document management, with a full offboarding flow covering resignation, asset return, and exit formalities.</li>
+        </ul>
+        <div class="stack">
+          <span class="stack-label">$ stack --list</span>
+          <span>React.js</span><span>Redux</span><span>Node.js</span><span>Express.js</span><span>MySQL</span><span>Prisma</span><span>JWT</span><span>RBAC</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj">
+      <div class="proj-head">
+        <span class="proj-name">Parcel Network</span>
+        <span class="proj-tag">secure logistics &amp; delivery platform · VinnovateLabz</span>
+      </div>
+      <div class="proj-body">
+        <ul>
+          <li>Built scalable RESTful APIs using Java and Spring Boot to power a secure logistics and delivery platform.</li>
+          <li>Implemented JWT authentication with RSA-based token validation and RBAC across public, protected, and authenticated endpoints.</li>
+          <li>Integrated AWS S3 for document storage and AWS SES for transactional email notifications.</li>
+          <li>Managed database schema versioning with Liquibase and Flyway; optimized queries using MyBatis.</li>
+          <li>Built backend modules for user management, package routing, and refund handling with metadata-driven access controls.</li>
+        </ul>
+        <div class="stack">
+          <span class="stack-label">$ stack --list</span>
+          <span>Java</span><span>Spring Boot</span><span>MyBatis</span><span>AWS S3/SES</span><span>Liquibase</span><span>Flyway</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj">
+      <div class="proj-head">
+        <span class="proj-name">Multilingual Web Q&amp;A Assistant</span>
+        <span class="proj-tag">LangChain · OpenAI</span>
+      </div>
+      <div class="proj-body">
+        <ul>
+          <li>Built a web application where users can ask questions in their own language and receive answers in that same language.</li>
+          <li>Given a URL, the system fetches and processes the page content, then uses an LLM to extract relevant information and generate a response in the user's query language.</li>
+        </ul>
+        <div class="stack">
+          <span class="stack-label">$ stack --list</span>
+          <span>LangChain</span><span>OpenAI API</span><span>Python</span><span>RAG</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj">
+      <div class="proj-head">
+        <span class="proj-name">NL Querying over Vector Database</span>
+        <span class="proj-tag">LangChain · OpenAI</span>
+      </div>
+      <div class="proj-body">
+        <ul>
+          <li>Built a system allowing non-technical users to retrieve information from a vector database using plain natural language questions.</li>
+          <li>Used an LLM to interpret the user's query, automatically generate the appropriate database query, and return relevant results — removing the need for manual query writing.</li>
+        </ul>
+        <div class="stack">
+          <span class="stack-label">$ stack --list</span>
+          <span>LangChain</span><span>OpenAI API</span><span>Vector DB</span><span>Prompt Engineering</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj">
+      <div class="proj-head">
+        <span class="proj-name">School Management System</span>
+        <span class="proj-tag">Java Full Stack training project · JSpiders</span>
+      </div>
+      <div class="proj-body">
+        <ul>
+          <li>Built during Java Full Stack Developer training at JSpiders, Bengaluru.</li>
+          <li>Designed the database schema and implemented backend logic and web-based UI to manage student, teacher, and class records.</li>
+        </ul>
+        <div class="stack">
+          <span class="stack-label">$ stack --list</span>
+          <span>Java</span><span>J2EE</span><span>SQL</span><span>HTML/CSS</span>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section id="education">
+  <p class="sec-cmd"><span class="p">$</span> cat education.txt</p>
+  <h2>Education</h2>
+  <div class="edu">
+    <div class="edu-item">
+      <span class="edu-mark">></span>
+      <div>
+        <div class="deg">B.Tech — Computer Science &amp; Engineering</div>
+        <div class="inst">Guru Tegh Bahadur Institute of Technology, New Delhi · CGPA 8.48</div>
+      </div>
+    </div>
+    <div class="edu-item">
+      <span class="edu-mark">></span>
+      <div>
+        <div class="deg">Class 12th &amp; 10th</div>
+        <div class="inst">Rawal International School, Faridabad · CGPA 8.2</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <p class="sec-cmd"><span class="p">$</span> ./connect.sh</p>
+  <h2>Contact</h2>
+  <div class="contact-box">
+    <div class="row"><span class="k">email</span><a href="mailto:vikasjadaun02@gmail.com">vikasjadaun02@gmail.com</a></div>
+    <div class="row"><span class="k">phone</span><a href="tel:+919810453672">+91 9810453672</a></div>
+    <div class="row"><span class="k">linkedin</span><a href="https://linkedin.com/in/vikas-singh02" target="_blank" rel="noopener">linkedin.com/in/vikas-singh02</a></div>
+    <div class="row"><span class="k">location</span><span>Noida, Uttar Pradesh, IN</span></div>
+
+    <div class="contact-actions">
+      <a class="contact-btn primary" href="mailto:vikasjadaun02@gmail.com">$ send_message --to vikas</a>
+      <button class="contact-btn ghost" id="copyEmailBtn" type="button">$ copy_email <span class="copy-feedback" id="copyFeedback">✓ copied</span></button>
+      <a class="contact-btn ghost" href="https://wa.me/919810453672" target="_blank" rel="noopener">$ whatsapp --open</a>
+      <a class="contact-btn ghost" href="https://linkedin.com/in/vikas-singh02" target="_blank" rel="noopener">$ open linkedin</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <span><span class="ok">●</span> exit code 0 — built by Vikas</span>
+    <span>© 2026 · no frameworks, just HTML/CSS/JS</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const body = document.getElementById('termBody');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const heroHTML = `
+    <div class="big-name">Vikas <span class="accent">_</span></div>
+    <div class="role-line">Full Stack Developer <span class="sep">·</span> React.js/Next.js <span class="sep">·</span> Java/Spring Boot <span class="sep">·</span> Node.js</div>
+    <div class="t-line out" style="margin-bottom:4px">2+ years <span class="hl">designing front ends</span> and <span class="hl">building the backend</span> systems behind them.</div>
+    <div class="t-line comment"># currently @ ABP Network · Noida, India</div>`;
+
+  const PROMPT = `<span class="prompt">vikas@portfolio<span class="path"> ~</span> $</span> `;
+
+  function addLine(html){
+    const d=document.createElement('div');
+    d.className='t-line';
+    d.innerHTML=html;
+    body.appendChild(d);
+    return d;
+  }
+
+  const commands = {
+    help: `available commands:
+  <span class="hl">about</span>       who I am
+  <span class="hl">skills</span>      tech stack
+  <span class="hl">experience</span>  work history
+  <span class="hl">projects</span>    things I've built
+  <span class="hl">contact</span>     get in touch
+  <span class="hl">resume</span>      quick summary
+  <span class="hl">clear</span>       clear terminal`,
+    about: `Full Stack Developer, 2+ yrs experience. React.js/Next.js front end,
+Java (Spring Boot) and Node.js back end. Focus: clean architecture,
+API security, performance. <span class="comment"># scrolling you there…</span>`,
+    skills: `frontend:  React, Next.js, Redux, Tailwind, Angular
+backend:   Node, Express, Spring Boot, JWT, RBAC
+languages: Java, Python, JavaScript, TypeScript
+ai/ml:     LangChain, OpenAI API, RAG, Vector DBs
+db/cloud:  MySQL, PostgreSQL, MongoDB, AWS (S3/SES), Docker`,
+    experience: `[1] Full Stack Developer @ ABP Network            Dec 2025 – Present
+[2] IoT Web App Developer @ Oxymora Technology     Aug 2025 – Nov 2025
+[3] Associate Software Engineer @ VinnovateLabz    Oct 2024 – Jul 2025
+[4] Java Full Stack Dev Trainee @ JSpiders         Aug 2023 – Oct 2024`,
+    projects: `→ Intern Management System (IMS)      React, Node, MySQL, RBAC
+→ Parcel Network                       Java, Spring Boot, AWS
+→ Multilingual Web Q&A Assistant       LangChain, OpenAI
+→ NL Querying over Vector Database     LangChain, OpenAI
+→ School Management System             Java, J2EE, SQL`,
+    contact: `email:    vikasjadaun02@gmail.com
+linkedin: linkedin.com/in/vikas-singh02
+phone:    +91 9810453672`,
+    resume: `Vikas — Full Stack Developer (2+ yrs)
+React.js/Next.js · Java/Spring Boot · Node.js · AWS · MySQL
+Currently: ABP Network. Open to interesting problems.`,
+    whoami: `vikas — full stack developer`,
+    ls: `about.md  skills/  experience/  projects/  education.txt  connect.sh`,
+    sudo: `<span class="comment">nice try. permission granted anyway — you seem cool.</span>`,
+    pwd: `/home/vikas/portfolio`,
+    date: () => new Date().toString(),
+    echo: (args) => args.join(' ') || ''
+  };
+  const scrollTargets = {about:'#about',skills:'#skills',experience:'#experience',projects:'#projects',contact:'#contact'};
+
+  function runCommand(raw){
+    const input = raw.trim();
+    addLine(PROMPT + `<span class="cmd">${escapeHtml(input)}</span>`);
+    if(!input) return;
+    const [name, ...args] = input.split(/\s+/);
+    const key = name.toLowerCase();
+    if(key === 'clear'){ body.innerHTML=''; body.appendChild(inputRow); return; }
+    const handler = commands[key];
+    if(handler){
+      const out = typeof handler === 'function' ? handler(args) : handler;
+      if(out) addLine(`<span class="out">${out}</span>`);
+      if(scrollTargets[key]){
+        setTimeout(()=>document.querySelector(scrollTargets[key]).scrollIntoView({behavior: reduceMotion?'auto':'smooth'}), 450);
+      }
+    }else{
+      addLine(`<span class="out">zsh: command not found: ${escapeHtml(key)} <span class="comment"># try 'help'</span></span>`);
+    }
+  }
+
+  function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+  const inputRow = document.createElement('div');
+  inputRow.className='term-input-row';
+  inputRow.innerHTML = PROMPT;
+  const input = document.createElement('input');
+  input.className='term-input';
+  input.setAttribute('aria-label','Terminal command input');
+  input.setAttribute('autocomplete','off');
+  input.setAttribute('spellcheck','false');
+  inputRow.appendChild(input);
+
+  const history=[]; let histIdx=-1;
+  input.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){
+      const v=input.value;
+      if(v.trim()){history.push(v);histIdx=history.length;}
+      body.removeChild(inputRow);
+      runCommand(v);
+      body.appendChild(inputRow);
+      input.value='';
+      input.focus();
+      inputRow.scrollIntoView({block:'nearest'});
+    }else if(e.key==='ArrowUp'){
+      if(histIdx>0){histIdx--;input.value=history[histIdx];e.preventDefault();}
+    }else if(e.key==='ArrowDown'){
+      if(histIdx<history.length-1){histIdx++;input.value=history[histIdx];}
+      else{histIdx=history.length;input.value='';}
+      e.preventDefault();
+    }
+  });
+  document.getElementById('terminal').addEventListener('click',()=>input.focus());
+
+  function finishBoot(){
+    addLine(PROMPT + '<span class="cmd">whoami</span>');
+    const hero=document.createElement('div'); hero.innerHTML=heroHTML; body.appendChild(hero);
+    body.appendChild(inputRow);
+  }
+
+  if(reduceMotion){
+    finishBoot();
+  }else{
+    const lineEl = addLine(PROMPT);
+    const cmdSpan = document.createElement('span'); cmdSpan.className='cmd'; lineEl.appendChild(cmdSpan);
+    const cur = document.createElement('span'); cur.className='cursor'; lineEl.appendChild(cur);
+    const text='whoami'; let i=0;
+    function type(){
+      if(i<text.length){ cmdSpan.textContent+=text[i++]; setTimeout(type, 90+Math.random()*70); }
+      else{
+        setTimeout(()=>{
+          cur.remove();
+          const hero=document.createElement('div');
+          hero.style.opacity='0'; hero.style.transition='opacity .5s';
+          hero.innerHTML=heroHTML;
+          body.appendChild(hero);
+          requestAnimationFrame(()=>hero.style.opacity='1');
+          setTimeout(()=>body.appendChild(inputRow), 350);
+        }, 380);
+      }
+    }
+    setTimeout(type, 500);
+  }
+
+  const copyBtn = document.getElementById('copyEmailBtn');
+  const copyFeedback = document.getElementById('copyFeedback');
+  if(copyBtn){
+    copyBtn.addEventListener('click', async ()=>{
+      const email = 'vikasjadaun02@gmail.com';
+      try{
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          await navigator.clipboard.writeText(email);
+        }else{
+          const ta=document.createElement('textarea');
+          ta.value=email; ta.style.position='fixed'; ta.style.opacity='0';
+          document.body.appendChild(ta); ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+        copyFeedback.classList.add('show');
+        setTimeout(()=>copyFeedback.classList.remove('show'), 1800);
+      }catch(err){
+        copyFeedback.textContent = 'copy failed — email above';
+        copyFeedback.classList.add('show');
+        setTimeout(()=>{copyFeedback.classList.remove('show'); copyFeedback.textContent='✓ copied';}, 2200);
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>
